@@ -15,6 +15,7 @@ boolean cScissors = false;
 boolean win = false;
 boolean lose = false;
 boolean tie = false;
+boolean keyPressed = false;
 PImage img;
 PImage img2;
 PImage img3;
@@ -283,4 +284,7 @@ void mouseClicked() {
     scissors = true;
     cScissors = true;
   }
+}
+void keyPressed() {
+  System.out.println("hi");
 }
