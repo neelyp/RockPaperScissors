@@ -17,18 +17,21 @@ boolean cScissors = false;
 boolean win = false;
 boolean lose = false;
 boolean tie = false;
+
 PImage img;
 PImage img2;
 PImage img3;
 PImage img4;
 PImage img5;
 PImage img6;
+
 float floatChoice = random(1, 3.001);
 int comChoice = int(floatChoice);
 import processing.sound.*;
 SoundFile file;
+
 void setup() {
-   size(1280, 720);
+  size(1280, 720);
   background(227, 213, 195);
   img = loadImage("Rock.png");
   img2 = loadImage("Paper.png");
@@ -308,5 +311,6 @@ void keyPressed() {
   tie = false;
   floatChoice = random(1, 3.001);
   comChoice = int(floatChoice);
+  background(227, 213, 195);
 }
 
