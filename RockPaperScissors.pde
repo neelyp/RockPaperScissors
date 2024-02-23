@@ -1,3 +1,5 @@
+import processing.sound.*;
+
 boolean buttonPressed1 = false;
 boolean buttonPressed2 = false;
 boolean buttonPressed3 = false;
@@ -26,7 +28,7 @@ int comChoice = int(floatChoice);
 import processing.sound.*;
 SoundFile file;
 void setup() {
-  size(1280, 720);
+   size(1280, 720);
   background(227, 213, 195);
   img = loadImage("Rock.png");
   img2 = loadImage("Paper.png");
@@ -34,7 +36,7 @@ void setup() {
   img4 = loadImage("Win.png");
   img5 = loadImage("Lose.png");
   img6 = loadImage("Tie.png");
-  
+
   file = new SoundFile(this, "Music.mp3");
   file.loop();
 }
@@ -284,3 +286,27 @@ void mouseClicked() {
     cScissors = true;
   }
 }
+
+void keyPressed() {
+  // Restart the game when any key is pressed
+  buttonPressed1 = false;
+  buttonPressed2 = false;
+  buttonPressed3 = false;
+  goButton = false;
+  endScreen = false;
+  rock = false;
+  paper = false;
+  scissors = false;
+  comRock = false;
+  comPaper = false;
+  comScissors = false;
+  cRock = false;
+  cPaper = false;
+  cScissors = false;
+  win = false;
+  lose = false;
+  tie = false;
+  floatChoice = random(1, 3.001);
+  comChoice = int(floatChoice);
+}
+
