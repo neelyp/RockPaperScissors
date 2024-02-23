@@ -286,6 +286,7 @@ void mouseClicked() {
     cScissors = true;
   }
 }
+
 void keyPressed() {
   // Restart the game when any key is pressed
   buttonPressed1 = false;
@@ -308,3 +309,4 @@ void keyPressed() {
   floatChoice = random(1, 3.001);
   comChoice = int(floatChoice);
 }
+
