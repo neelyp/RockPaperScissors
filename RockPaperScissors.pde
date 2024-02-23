@@ -1,3 +1,5 @@
+import processing.sound.*;
+
 boolean buttonPressed1 = false;
 boolean buttonPressed2 = false;
 boolean buttonPressed3 = false;
@@ -6,25 +8,34 @@ boolean endScreen = false;
 boolean rock = false;
 boolean paper = false;
 boolean scissors = false;
-boolean comRock = false;
-boolean comPaper = false;
-boolean comScissors = false;
-boolean cRock = false;
-boolean cPaper = false;
-boolean cScissors = false;
 boolean win = false;
 boolean lose = false;
 boolean tie = false;
+boolean increaseWin = false;
+
+int wins = 0;
+
 PImage img;
 PImage img2;
 PImage img3;
 PImage img4;
 PImage img5;
 PImage img6;
-float floatChoice = random(1, 3.001);
-int comChoice = int(floatChoice);
-import processing.sound.*;
+
+Computer computer;
+
 SoundFile file;
+
+void restartText() {
+  text("Press any button to restart", 626, 628);
+}
+
+void wins() {
+  text("Win Streak: " + wins, 100,80);
+}
+
+
+
 void setup() {
   size(1280, 720);
   background(227, 213, 195);
@@ -34,6 +45,7 @@ void setup() {
   img4 = loadImage("Win.png");
   img5 = loadImage("Lose.png");
   img6 = loadImage("Tie.png");
+  computer = new Computer();
   
   file = new SoundFile(this, "Music.mp3");
   file.loop();
@@ -44,19 +56,7 @@ void draw() {
   rect(207.5, 300, 150, 50, 14);
   rect(564.5, 300, 150, 50, 14);
   rect(922.5, 300, 150, 50, 14);
-
-  if (comChoice == 1) {
-    comRock = true;
-  }
-
-  if (comChoice == 2) {
-    comPaper = true;
-  }
-
-  if (comChoice == 3) {
-    comScissors = true;
-  }
-
+  
   if ((mouseX > 207.5) && (mouseX < 357.5) && (mouseY > 300) && (mouseY < 350)) {
     fill(214, 212, 212);
     rect(207.5, 300, 150, 50, 14);
@@ -66,9 +66,9 @@ void draw() {
   } else {
     fill(255);
   }
-
+  
   if ((mouseX > 564.5) && (mouseX < 714.5) && (mouseY > 300) && (mouseY < 350)) {
-    fill(214, 212, 212);
+    fill(214, 212,212);
     rect(564.5, 300, 150, 50, 14);
     fill(255);
     rect(207.5, 300, 150, 50, 14);
@@ -76,7 +76,7 @@ void draw() {
   } else {
     fill(255);
   }
-
+  
   if ((mouseX > 922.5) && (mouseX < 1072.5) && (mouseY > 300) && (mouseY < 350)) {
     fill(214, 212, 212);
     rect(922.5, 300, 150, 50, 14);
@@ -86,10 +86,7 @@ void draw() {
   } else {
     fill(255);
   }
-
-
-
-
+  
   if (buttonPressed1) {
     fill(163, 155, 155);
     rect(207.5, 300, 150, 50, 14);
@@ -99,7 +96,7 @@ void draw() {
   } else {
     fill(255);
   }
-
+  
   if (buttonPressed2) {
     fill(163, 155, 155);
     rect(564.5, 300, 150, 50, 14);
@@ -109,7 +106,7 @@ void draw() {
   } else {
     fill(255);
   }
-
+  
   if (buttonPressed3) {
     fill(163, 155, 155);
     rect(922.5, 300, 150, 50, 14);
@@ -119,60 +116,59 @@ void draw() {
   } else {
     fill(255);
   }
-
-
+  
   fill(0);
   textSize(25);
   text("ROCK", 250.5, 333);
   text("PAPER", 605.5, 333);
   text("SCISSORS", 945.5, 333);
   fill(255);
-
+  
   image(img, 130, 15, 323.33333, 262);
   image(img2, 480, 15, 323.33333, 262);
   image(img3, 850, 15, 323.33333, 262);
-
+  
   if (endScreen) {
     fill(227, 213, 195);
     rect(0, 0, 1280, 720);
   }
-
-  if (comRock && rock) {
+  
+  if (computer.choice.equals("rock") && rock) {
     tie = true;
   }
-
-  if (comPaper && paper) {
+  
+  if (computer.choice.equals("paper") && paper) {
     tie = true;
   }
-
-  if (comScissors && scissors) {
+  
+  if (computer.choice.equals("scissors") && scissors) {
     tie = true;
   }
-
-  if (comRock && paper) {
+  
+  if (computer.choice.equals("rock") && paper) {
     win = true;
   }
-
-  if (comPaper && scissors) {
+  
+  if (computer.choice.equals("paper") && scissors) {
     win = true;
   }
-
-  if (comScissors && rock) {
+  
+  if (computer.choice.equals("scissors") && rock) {
     win = true;
   }
-
-  if (comRock && scissors) {
+  
+  if (computer.choice.equals("rock") && scissors) {
     lose = true;
   }
-
-  if (comPaper && rock) {
+  
+  if (computer.choice.equals("paper") && rock) {
     lose = true;
   }
-
-  if (comScissors && paper) {
+  
+  if (computer.choice.equals("scissors") && paper) {
     lose = true;
   }
-
+  
   if (win) {
     fill(227, 213, 195);
     rect(0, 0, 1280, 720);
@@ -180,107 +176,80 @@ void draw() {
     textSize(50);
     textAlign(CENTER);
     text("YOU WON", 640, 100);
+    restartText();
     image(img4, 390, 125);
-  }
-
-  if (tie) {
+    
+    if (!increaseWin) {
+      ++wins;
+      increaseWin = true;
+    }
+  } else if (tie) {
     fill(227, 213, 195);
     rect(0, 0, 1280, 720);
     fill(255);
     textSize(50);
     textAlign(CENTER);
     text("YOU TIED", 640, 100);
+    restartText();
     image(img6, 500.5, 200);
-  }
-
-  if (lose) {
+  } else if (lose) {
     fill(227, 213, 195);
     rect(0, 0, 1280, 720);
     fill(255);
     textSize(50);
     textAlign(CENTER);
     text("YOU LOST", 640, 100);
+    restartText();
     image(img5, 424, 30);
+    wins = 0;
   }
   
-  if(cRock){
-  if(comRock){
+  if (computer.choice.equals("rock")) {
     textSize(50);
     textAlign(LEFT);
-    text("COM CHOSE ROCK", 20, 700);
-  }
-  
-  if(comPaper){
+    computer.choiceTxt();
+  } else if (computer.choice.equals("paper")) {
     textSize(50);
     textAlign(LEFT);
-    text("COM CHOSE PAPER", 20, 700);
-  }
-  
-  if(comScissors){
+    computer.choiceTxt();
+  } else if (computer.choice.equals("scissors")) {
     textSize(50);
     textAlign(LEFT);
-    text("COM CHOSE SCISSORS", 20, 700);
+    computer.choiceTxt();
   }
-  }
-  
-  if(cPaper){
-  if(comRock){
-    textSize(50);
-    textAlign(LEFT);
-    text("COM CHOSE ROCK", 20, 700);
-  }
-  
-  if(comPaper){
-    textSize(50);
-    textAlign(LEFT);
-    text("COM CHOSE PAPER", 20, 700);
-  }
-  
-  if(comScissors){
-    textSize(50);
-    textAlign(LEFT);
-    text("COM CHOSE SCISSORS", 20, 700);
-  }
-  }
-  
-  if(cScissors){
-  if(comRock){
-    textSize(50);
-    textAlign(LEFT);
-    text("COM CHOSE ROCK", 20, 700);
-  }
-  
-  if(comPaper){
-    textSize(50);
-    textAlign(LEFT);
-    text("COM CHOSE PAPER", 20, 700);
-  }
-  
-  if(comScissors){
-    textSize(50);
-    textAlign(LEFT);
-    text("COM CHOSE SCISSORS", 20, 700);
-  }
-  }
-  
+  wins();
 }
 
 void mouseClicked() {
   if ((mouseX > 207.5) && (mouseX < 357.5) && (mouseY > 300) && (mouseY < 350)) {
     buttonPressed1 = true;
     rock = true;
-    cRock = true;
   }
-
+  
   if ((mouseX > 564.5) && (mouseX < 714.5) && (mouseY > 300) && (mouseY < 350)) {
     buttonPressed2 = true;
     paper = true;
-    cPaper = true;
   }
-
+  
   if ((mouseX > 922.5) && (mouseX < 1072.5) && (mouseY > 300) && (mouseY < 350)) {
     buttonPressed3 = true;
     scissors = true;
-    cScissors = true;
   }
+  computer.choose();
+}
+
+void keyPressed() {
+  buttonPressed1 = false;
+  buttonPressed2 = false;
+  buttonPressed3 = false;
+  goButton = false;
+  endScreen = false;
+  rock = false;
+  paper = false;
+  scissors = false;
+  win = false;
+  lose = false;
+  tie = false;
+  increaseWin = false;
+  background(227, 213, 195);
 }
