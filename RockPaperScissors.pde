@@ -13,16 +13,26 @@ Computer computer;
 Game game;
 SoundFile file;
 
+
+
 void setup() {
+	// sketch settings
 	size(1280, 720);
 	background(227, 213, 195);
 	noStroke();
+	surface.setTitle("Rock Paper Scissors");
+	surface.setIcon(loadImage("icon.png"));
+	
+	// load necessary imgs for start
 	img = loadImage("Rock.png");
 	img2 = loadImage("Paper.png");
 	img3 = loadImage("Scissors.png");
+	
+	// create class instance
 	computer = new Computer();
 	game = new Game(img,img2,img3,img4,img5,img6);
 	
+	// load music
 	file = new SoundFile(this, "Music.wav");
 	file.loop();
 }
