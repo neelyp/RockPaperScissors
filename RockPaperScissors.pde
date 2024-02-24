@@ -16,6 +16,7 @@ SoundFile file;
 void setup() {
   size(1280, 720);
   background(227, 213, 195);
+  noStroke();
   img = loadImage("Rock.png");
   img2 = loadImage("Paper.png");
   img3 = loadImage("Scissors.png");
@@ -25,12 +26,11 @@ void setup() {
   computer = new Computer();
   game = new Game(img,img2,img3,img4,img5,img6);
   
-  file = new SoundFile(this, "Music.mp3");
+  file = new SoundFile(this, "Music.wav");
   file.loop();
 }
 
 void draw() {
-  noStroke();
   rect(207.5, 300, 150, 50, 14);
   rect(564.5, 300, 150, 50, 14);
   rect(922.5, 300, 150, 50, 14);
