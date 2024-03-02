@@ -39,7 +39,7 @@ void setup() {
   if (r < 33) song = "hotlineBling.wav";
   else if (r < 66) song = "godsPlan.wav";
   else song = "butterfly.wav";
-  r = 67;
+  
   player = new Minim(this).loadFile("data/" + song);
   player.play();
 }
