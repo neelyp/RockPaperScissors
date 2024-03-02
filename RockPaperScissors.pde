@@ -1,6 +1,5 @@
 import ddf.minim.*;
 
-
 boolean increaseWin = false;
 
 PImage img;
@@ -13,7 +12,7 @@ PImage img6;
 Computer computer;
 Game game;
 AudioPlayer player;
-
+String song;
 
 
 void setup() {
@@ -34,7 +33,14 @@ void setup() {
   game = new Game(img,img2,img3,img4,img5,img6);
   
   // load & play music
-  player = new Minim(this).loadFile("data/Music.wav");
+  int r = (int)random(0,101);
+  print(r);
+  // decide song
+  if (r < 33) song = "hotlineBling.wav";
+  else if (r < 66) song = "godsPlan.wav";
+  else song = "butterfly.wav";
+  
+  player = new Minim(this).loadFile("data/" + song);
   player.play();
 }
 
@@ -105,7 +111,9 @@ void mouseClicked() {
 }
 
 void keyPressed() {
-  game.resetGame();
-  increaseWin = false;
-  background(227, 213, 195);
+  if (keyCode == ENTER) {
+    game.resetGame();
+    increaseWin = false;
+    background(227, 213, 195);
+  }
 }
