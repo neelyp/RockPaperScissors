@@ -41,12 +41,13 @@ void setup() {
   else song = "butterfly.wav";
   
   player = new Minim(this).loadFile("data/" + song);
+
   player.play();
 }
 
 void draw() {
   // restart audio if it is done
-  if (player.position() == player.length()) {
+  if (!player.isPlaying()) {
     player.rewind();
     player.play();
   }
